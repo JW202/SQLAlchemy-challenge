@@ -104,29 +104,28 @@ def tobs():
 def start(start):
  
     session = Session(engine)
-    sel = [Measurement.date,Measurement.tmin,Measurement.tavg, Measurement.tmax]
+  
+    sel = [Measurement.date, func.min(Measurement.tobs),func.avg(Measurement.tobs),func.max(Measurement.tobs)]
     
+
     results = session.query(*sel).filter\
                (func.strftime(Measurement.date) >= start)\
                .order_by(Measurement.date).all()
     
     session.close()
     
-    start_tobs = {}
-    
+    start_list = []
+
+    start_tobs = {}   
     for date, tmin, tavg, tmax in results:
         
-
-        tmin = results.tobs.min()
-        tavg = results.tobs.avg()
-        tmax = results.tobs.max()
        
         start_tobs["date"] = date
         start_tobs["TMIN"] = tmin
         start_tobs["TAVG"] = tavg
         start_tobs['TMAX'] = tmax
         
-        start_tobs.append(start_tobs)
+        start_list.append(start_tobs)
         
         return jsonify(start_tobs)
     """Fetch the temperatures whose date is greater than or equal to
@@ -140,7 +139,8 @@ def start(start):
 def startend(start= None, end=None ):
     
     session = Session(engine)
-    sel = [Measurement.date, Measurement.tmin,Measurement.tavg,Measurement.tmax]
+
+    sel = [Measurement.date, func.min(Measurement.tobs),func.avg(Measurement.tobs),func.max(Measurement.tobs)]
     
     results = session.query(*sel).filter\
               ( (func.strftime(Measurement.date) >= start ) & ( func.strftime(Measurement.date) <= end )) \
@@ -148,20 +148,19 @@ def startend(start= None, end=None ):
     
     session.close()
     
-    startend_tobs = {}
-    
+    startend_list = []
+
+    startend_tobs = {}  
     for date, tmin, tavg, tmax in results:
         
-        tmin = results.tobs.min()
-        tavg = results.tobs.avg()
-        tmax = results.tobs.max()
+   
 
         startend_tobs["date"] = date
         startend_tobs["TMIN"] = tmin
         startend_tobs["TAVG"] = tavg
         startend_tobs['TMAX'] = tmax
         
-        startend_tobs.append(startend_tobs)
+        startend_list.append(startend_tobs)
         
         return jsonify(startend_tobs)
 
