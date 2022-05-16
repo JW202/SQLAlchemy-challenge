@@ -15,4 +15,9 @@ In this section, use Python and SQLAlchemy to perform basic climate analysis and
     * Plot the results as a histogram.
 
 Part 2: Design Your Climate App
-Now that I have completed my initial analysis, I’ll design a Flask API based on the queries that you have just developed.
+Now that I have completed my initial analysis, I can design a Flask API based on the queries that you have just developed.
+    * route "/" 
+    * precipitation
+    * stations
+    * tobs
+    * start and start/end dates
